@@ -1,0 +1,13 @@
+,overall,men,women,ncgmen,ncgwomen,cgmen,cgwomen
+pctworkingallages,0.694,0.77,0.621,0.749,0.581,0.814,0.696
+pctunemployedallages,0.03,0.031,0.028,0.036,0.032,0.022,0.02
+pctnotinlaborforceallages,0.277,0.198,0.351,0.215,0.386,0.165,0.284
+pctworkingunderage35,0.761,0.891,0.634,0.832,0.579,0.974,0.728
+pctunemployedunderage35,0.043,0.049,0.038,0.069,0.046,0.019,0.024
+pctnotinlaborforceunderage35,0.196,0.061,0.328,0.099,0.375,0.007,0.247
+pctworkingage35to49,0.785,0.857,0.715,0.831,0.684,0.94,0.777
+pctunemployed35to49,0.032,0.029,0.034,0.031,0.037,0.023,0.029
+pctnotinlaborforce35to49,0.184,0.114,0.251,0.139,0.279,0.037,0.194
+pctworkingoverage50,0.591,0.639,0.546,0.637,0.508,0.642,0.62
+pctunemployedoverage50,0.021,0.024,0.019,0.025,0.022,0.022,0.012
+pctnotinlaborforceoverage50,0.388,0.337,0.435,0.338,0.47,0.336,0.368
