@@ -125,13 +125,12 @@ hourssched=as.data.frame(awcsdata$ms436_q18)
 hourssched
 hourssched[2]=awcsdata$ms436_q20
 hourssched[3]=awcsdata$ms436_q20_wks
-hourssched[4]=awcsdata$ms436_q22
-hourssched[5]=awcsdata$ms436_q37a
-hourssched[6]=awcsdata$ms436_q37b
-hourssched[7]=awcsdata$ms436_q37c
-hourssched[8]=awcsdata$ms436_q37d
-hourssched[9]=awcsdata$ms436_q37e
-hoursschednames=c("q18","q20","q20_wks","q22","q37a","q37b","q37c","q37d","q37e")
+hourssched[4]=awcsdata$ms436_q37a
+hourssched[5]=awcsdata$ms436_q37b
+hourssched[6]=awcsdata$ms436_q37c
+hourssched[7]=awcsdata$ms436_q37d
+hourssched[8]=awcsdata$ms436_q37e
+hoursschednames=c("q18","q20","q20_wks","q37a","q37b","q37c","q37d","q37e")
 names(hourssched)=hoursschednames
 hoursschednona=na.omit(hourssched)
 hoursschednona
@@ -167,6 +166,8 @@ location[4]=awcsdata$ms436_q27d
 location[5]=awcsdata$ms436_q27e
 location[6]=awcsdata$ms436_q27f
 location[7]=awcsdata$ms436_n8
+locnames=c("q27a","q27b","q27c","q27d","q27e","q27f","n8")
+names(location)=locnames
 locationnona=na.omit(location)
 
 locationpca<-prcomp(locationnona,center=TRUE,scale=TRUE)
@@ -188,6 +189,8 @@ autonomy[12]=awcsdata$ms436_q51c
 autonomy[13]=awcsdata$ms436_q51d
 autonomy[14]=awcsdata$ms436_q51e
 autonomy[15]=awcsdata$ms436_q51f
+autnames=c("q49a","q49b","q49c","q49d","q49e","q49f","q50a","q50b","q50c","q51a","q51b","q51c","q51d","q51e","q51f")
+names(autonomy)=autnames
 autonomynona=na.omit(autonomy)
 
 autonomypca=prcomp(autonomynona,center=TRUE,scale=TRUE)
@@ -203,6 +206,8 @@ pace[6]=awcsdata$ms436_q46d
 pace[7]=awcsdata$ms436_q46e
 pace[8]=awcsdata$ms436_q47
 pace[9]=awcsdata$ms436_q48
+pacenames=c("q45a","q45b","q46a","q46c","q46d","q46e","q47","q48")
+names(pace)=pacenames
 pacenona=na.omit(pace)
 
 pacepca=prcomp(pacenona,center=TRUE,scale=TRUE)
@@ -214,14 +219,22 @@ learning[2]=awcsdata$ms436_q61a
 learning[3]=awcsdata$ms436_q61b
 learning[4]=awcsdata$ms436_q61c
 learning[5]=awcsdata$ms436_q61d
+learnnames=c("q60","q61a","q61b","q61c","q61d")
+names(learning)=learnnames
 learningnona=na.omit(learning)
 learningnona
+
+learningpca=prcomp(learningnona,center=TRUE,scale=TRUE)
+summary(learningpca)
+ggbiplot(learningpca)
 
 collab=as.data.frame(awcsdata$ms436_q56)
 collab[2]=awcsdata$ms436_q57a
 collab[3]=awcsdata$ms436_q57b
 collab[4]=awcsdata$ms436_q57c
 collab[5]=awcsdata$ms436_n10
+collabnames=c("q56","q57a","q57b","q57c","n10")
+names(collab)=collabnames
 collabnona=na.omit(collab)
 collabnona
 
@@ -229,19 +242,18 @@ collabpca=prcomp(collabnona,center=TRUE,scale=TRUE)
 summary(collabpca)
 ggbiplot(collabpca)
 
-learningpca=prcomp(learningnona,center=TRUE,scale=TRUE)
-summary(learningpca)
-ggbiplot(learningpca)
-
 physdemand=as.data.frame(awcsdata$ms436_q24a)
 physdemand[2]=awcsdata$ms436_q24b
 physdemand[3]=awcsdata$ms436_q24c
 physdemand[4]=awcsdata$ms436_q24d
 physdemand[5]=awcsdata$ms436_q24e
 physdemand[6]=awcsdata$ms436_q24f
-physdemand[7]=awcsdata$ms436_q24g
-physdemand[8]=awcsdata$ms436_q24h
-physdemand[9]=awcsdata$ms436_q24i
+physdemand[7]=awcsdata$ms436_q24i
+physdemand
+physdemand[8]=awcsdata$ms436_q24j
+physdemand[9]=awcsdata$ms436_q24k
+physdnames=c("q24a","q24b","q24c","q24d","q24e","q24f","q24g","q24h","q24i")
+names(physdemand)=physdnames
 physdemandnona=na.omit(physdemand)
 
 physdemandpca=prcomp(physdemandnona,center=TRUE,scale=TRUE)
@@ -279,6 +291,9 @@ physexpose[28]=awcsdata$ms436_pc1r
 physexpose[29]=awcsdata$ms436_pc1s
 physexpose[30]=awcsdata$ms436_pc1t
 physexpose[31]=awcsdata$ms436_pc1u
+physenames=c("q23a","q23b","q23c","q23d","q23e","q23f","q23g","q23h","q23i","q28","pc1a","pc1b","pc1c","pc1d","pc1e","pc1f","pc1g","pc1h","pc1i",
+             "pc1j","pc1k","pc1l","pc1m","pc1n","pc1o","pc1p","pc1q","pc1r","pc1s","pc1t","pc1u")
+names(physexpose)=physenames
 physexposenona=na.omit(physexpose)
 
 physexposepca=prcomp(physexposenona,center=TRUE,scale=TRUE)
@@ -301,6 +316,8 @@ management[13]=awcsdata$ms436_q61_4d
 management[14]=awcsdata$ms436_q61_4e
 management[15]=awcsdata$ms436_q61_4f
 management[16]=awcsdata$ms436_q61_4g
+managenames=c("q17","q59","q58a","q58b","q58c","q58d","q58e","q58f","q58g","q614a","q614b","q614c","q614d","q614e","q614f","q614g")
+names(management)=managenames
 managementnona=na.omit(management)
 
 managementpca=prcomp(managementnona,center=TRUE,scale=TRUE)
@@ -333,6 +350,9 @@ stress[23]=awcsdata$ms436_q70d
 stress[24]=awcsdata$ms436_q71a
 stress[25]=awcsdata$ms436_q71b
 stress[26]=awcsdata$ms436_q71c
+stressnames=c("q52a","q52b","q52c","q52d","q52e","q52f","q52g","q77a","q77b","q77c","q77d","q77e","q65a","q65b","q65c","q65d","q65e","q65f",
+              "q65g","q70a","q70b","q70c","q70d","q71a","q71b","q71c")
+names(stress)=stressnames
 stressnona=na.omit(stress)
 
 stresspca=prcomp(stressnona,center=TRUE,scale=TRUE)
@@ -345,6 +365,8 @@ meaningful[3]=awcsdata$ms436_n3c
 meaningful[4]=awcsdata$ms436_n3d
 meaningful[5]=awcsdata$ms436_n3e
 meaningful[6]=awcsdata$ms436_n3f
+meaningnames=c("n3a","n3b","n3c","n3d","n3e","n3f")
+names(meaningful)=meaningnames
 meaningfulnona=na.omit(meaningful)
 
 meaningfulpca=prcomp(meaningfulnona,center=TRUE,scale=TRUE)
@@ -352,19 +374,15 @@ summary(meaningfulpca)
 ggbiplot(meaningfulpca)
 
 
-total<-merge(background,worklifebalance,by="row.names")
-total
-total=merge(total,hourssched,by="row.names")
-total=merge(total,ptobenefits,by="row.names")
-total
-total=total[-c(1,2,3)]
+total=cbind(background,worklifebalance,hourssched,ptobenefits,location,autonomy,pace,learning,collab,physdemand,physexpose,management,stress,meaningful)
+total=total[!names(total)%in%c("q57a","q57b","q57c","n5a")]
 totalnona=na.omit(total)
+total
 totalnona
-totalnona=totalnona[-c(2)]
 totalpca<-prcomp(totalnona,center=TRUE,scale=TRUE)
 summary(totalpca)
 
-kmeans(totalnona,3)
+kmeans(totalnona,4)
 
 
 control=as.data.frame(awcsdata$ms436_q39)
