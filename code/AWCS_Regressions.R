@@ -386,6 +386,7 @@ summary(totalpca)
 kmeans(totalnona,4)
 
 
+
 control=as.data.frame(awcsdata$ms436_q39)
 control[2]=awcsdata$ms436_ef10
 control[3]=0
@@ -402,3 +403,26 @@ controlbar[2,1]=mean(control[3])
 controlbar[2,2]=2
 controlbar[2,3]=3
 controlbar[2,4]=4
+
+
+
+wage=awcsdata$ms436_ef10
+gender=as.factor(awcsdata$ms436_gender)
+livingsituation=as.factor(awcsdata$ms436_currentlivingsituation)
+ethnicity=as.factor(awcsdata$ms436_ethnicity)
+educ=as.factor(awcsdata$ms436_highesteducation)
+selfemp=as.factor(awcsdata$ms436_q6)
+sector=as.factor(awcsdata$ms436_q10)
+
+wageframe=as.data.frame(wage)
+wageframe[2]=gender
+wageframe[3]=livingsituation
+wageframe[4]=ethnicity
+wageframe[5]=educ
+wageframe[6]=selfemp
+wageframe[7]=sector
+wageframenona=na.omit(wageframe)
+wageframenona
+
+wagemodel=lm(wage~.,data=wageframenona)
+summary(wagemodel)
