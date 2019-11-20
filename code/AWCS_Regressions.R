@@ -1,5 +1,6 @@
-awcsdata=read.csv("AWCS Data.csv")
-install.packages(devtools)
+setwd("E:/research/git-repos/AWCS-analysis")
+awcsdata=read.csv("./data/AWCS Data.csv")
+install.packages("devtools")
 library(devtools)
 install.packages("digest")
 install_github("vqv/ggbiplot",force=T)
@@ -368,7 +369,7 @@ meaningful[6]=awcsdata$ms436_n3f
 meaningnames=c("n3a","n3b","n3c","n3d","n3e","n3f")
 names(meaningful)=meaningnames
 meaningfulnona=na.omit(meaningful)
-
+s
 meaningfulpca=prcomp(meaningfulnona,center=TRUE,scale=TRUE)
 summary(meaningfulpca)
 ggbiplot(meaningfulpca)
