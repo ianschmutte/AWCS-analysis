@@ -1,93 +1,19 @@
+---
+title: "AWCSRegMD"
+output: html_document
+---
+
+```{r setup, include=FALSE,echo=FALSE}
+setwd("/Users/manav/Downloads")
 awcsdata=read.csv("AWCS Data.csv")
-install.packages(devtools)
 library(devtools)
-install.packages("digest")
-install_github("vqv/ggbiplot",force=T)
 library(ggbiplot)
+```
 
 
-awcsdata$tiring=NA
-awcsdata$tiring[awcsdata$ms436_q24a<=4]=1
-awcsdata$tiring[awcsdata$ms436_q24a>4]=0
-awcsdata$tiring
-awcsdata$lifting=NA
-awcsdata$lifting[awcsdata$ms436_q24b<=4]=1
-awcsdata$lifting[awcsdata$ms436_q24b>4]=0
-awcsdata$lifting
-awcsdata$carrying=NA
-awcsdata$carrying[awcsdata$ms436_q24c<=4]=1
-awcsdata$carrying[awcsdata$ms436_q24c>4]=0
-awcsdata$carrying
-awcsdata$sitting=NA
-awcsdata$sitting[awcsdata$ms436_q24d<=4]=1
-awcsdata$sitting[awcsdata$ms436_q24d>4]=0
-awcsdata$sitting
-awcsdata$repetitivearm=NA
-awcsdata$repetitivearm[awcsdata$ms436_q24e<=4]=1
-awcsdata$repetitivearm[awcsdata$ms436_q24e>4]=0
-awcsdata$repetitivearm
-awcsdata$directlydealing=NA
-awcsdata$directlydealing[awcsdata$ms436_q24f<=4]=1
-awcsdata$directlydealing[awcsdata$ms436_q24f>4]=0
-awcsdata$directlydealing
-awcsdata$computer=NA
-awcsdata$computer[awcsdata$ms436_q24i<=4]=1
-awcsdata$computer[awcsdata$ms436_q24i>4]=0
-awcsdata$computer
-
-physdemandmodel=lm(awcsdata$ms436_ef10~awcsdata$tiring+awcsdata$lifting+awcsdata$carrying+awcsdata$sitting+awcsdata$repetitivearm
-                   +awcsdata$directlydealing+awcsdata$computer,na.action=na.exclude)
-summary(physdemandmodel)
-
-awcsdata$vibrations=NA
-awcsdata$vibrations[awcsdata$ms436_q23a<=4]=1
-awcsdata$vibrations[awcsdata$ms436_q23a>4]=0
-awcsdata$vibrations
-awcsdata$noise=NA
-awcsdata$noise[awcsdata$ms436_q23b<=4]=1
-awcsdata$noise[awcsdata$ms436_q23b>4]=0
-awcsdata$noise
-awcsdata$hightemp=NA
-awcsdata$hightemp[awcsdata$ms436_q23c<=4]=1
-awcsdata$hightemp[awcsdata$ms436_q23c>4]=0
-awcsdata$hightemp
-awcsdata$lowtemp=NA
-awcsdata$lowtemp[awcsdata$ms436_q23d<=4]=1
-awcsdata$lowtemp[awcsdata$ms436_q23d>4]=0
-awcsdata$lowtemp
-awcsdata$smokefumes=NA
-awcsdata$smokefumes[awcsdata$ms436_q23e<=4]=1
-awcsdata$smokefumes[awcsdata$ms436_q23e>4]=0
-awcsdata$smokefumes
-awcsdata$vapors=NA
-awcsdata$vapors[awcsdata$ms436_q23f<=4]=1
-awcsdata$vapors[awcsdata$ms436_q23f>4]=0
-awcsdata$vapors
-awcsdata$chem=NA
-awcsdata$chem[awcsdata$ms436_q23g<=4]=1
-awcsdata$chem[awcsdata$ms436_q23g>4]=0
-awcsdata$chem
-awcsdata$tobacco=NA
-awcsdata$tobacco[awcsdata$ms436_q23h<=4]=1
-awcsdata$tobacco[awcsdata$ms436_q23h>4]=0
-awcsdata$tobacco
-awcsdata$infectious=NA
-awcsdata$infectious[awcsdata$ms436_q23i<=4]=1
-awcsdata$infectious[awcsdata$ms436_q23i>4]=0
-awcsdata$infectious
-
-physexposemodel=lm(awcsdata$ms436_ef10~awcsdata$vibrations+awcsdata$noise+awcsdata$hightemp+awcsdata$lowtemp
-                   +awcsdata$smokefumes+awcsdata$vapors+awcsdata$chem+awcsdata$tobacco+awcsdata$infectious
-                   +awcsdata$ms436_q28+awcsdata$ms436_pc1a+awcsdata$ms436_pc1b+awcsdata$ms436_pc1c+awcsdata$ms436_pc1d+
-                     awcsdata$ms436_pc1e+awcsdata$ms436_pc1f+awcsdata$ms436_pc1g+awcsdata$ms436_pc1h+awcsdata$ms436_pc1i+
-                     awcsdata$ms436_pc1j+awcsdata$ms436_pc1k+awcsdata$ms436_pc1l+awcsdata$ms436_pc1m+awcsdata$ms436_pc1n+
-                     awcsdata$ms436_pc1o+awcsdata$ms436_pc1p+awcsdata$ms436_pc1q+awcsdata$ms436_pc1r+awcsdata$ms436_pc1s+
-                     awcsdata$ms436_pc1t+awcsdata$ms436_pc1u, na.action=na.exclude)
-summary(physexposemodel)
-
-
-#89-376: Creation of frames for each category of job characterisitics, and then principal component analysis with ggbiplots on each frame
-
+# Principal Component Analysis by Job Characteristic Category 
+Work-life Balance PCA:
+```{r, echo=FALSE}
 worklifebalance=as.data.frame(awcsdata$ms436_q31)
 worklifebalance[2]=awcsdata$ms436_q32
 worklifebalance[3]=awcsdata$ms436_q36
@@ -103,12 +29,15 @@ worklifebalance[12]=awcsdata$ms436_q43
 wlbnames=c("q31","q32","q36","q41","q41aa","q41ab","q41ac","q41ad","q41ae","q41af","qn1","q43")
 names(worklifebalance)=wlbnames
 worklifebalancenona=na.omit(worklifebalance)
-worklifebalance
+
 
 worklifepca<-prcomp(worklifebalancenona,center=TRUE,scale=TRUE)
 summary(worklifepca)
 ggbiplot(worklifepca)
+```
 
+Background PCA:
+```{r, echo=FALSE}
 background=as.data.frame(awcsdata$ms436_q11)
 background[2]=awcsdata$ms436_q11a
 background[3]=awcsdata$ms436_q11b
@@ -117,14 +46,16 @@ background[5]=awcsdata$ms436_n7
 backnames=c("q11","q11a","q11b","q12_years","n7")
 names(background)=backnames
 backgroundnona=na.omit(background)
-backgroundnona
 
 backgroundpca<-prcomp(backgroundnona,center=TRUE,scale=TRUE)
 summary(backgroundpca)
 ggbiplot(backgroundpca)
 
+```
+
+Hours/Schedule PCA:
+```{r, echo=FALSE}
 hourssched=as.data.frame(awcsdata$ms436_q18)
-hourssched
 hourssched[2]=awcsdata$ms436_q20
 hourssched[3]=awcsdata$ms436_q20_wks
 hourssched[4]=awcsdata$ms436_q37a
@@ -135,12 +66,15 @@ hourssched[8]=awcsdata$ms436_q37e
 hoursschednames=c("q18","q20","q20_wks","q37a","q37b","q37c","q37d","q37e")
 names(hourssched)=hoursschednames
 hoursschednona=na.omit(hourssched)
-hoursschednona
 
 hoursschedpca<-prcomp(hoursschednona,center=TRUE,scale=TRUE)
 summary(hoursschedpca)
 ggbiplot(hoursschedpca)
 
+```
+
+PTO/Benefits PCA:
+```{r, echo=FALSE}
 ptobenefits=as.data.frame(awcsdata$ms436_n4a)
 ptobenefits[2]=awcsdata$ms436_n4b
 ptobenefits[3]=awcsdata$ms436_n4c
@@ -160,22 +94,11 @@ ptobenefitsnona=na.omit(ptobenefits)
 ptobenefitspca<-prcomp(ptobenefitsnona,center=TRUE,scale=TRUE)
 summary(ptobenefitspca)
 ggbiplot(ptobenefitspca)
+```
 
-location=as.data.frame(as.factor(awcsdata$ms436_q27a))
-location[2]=as.factor(awcsdata$ms436_q27b)
-location[3]=as.factor(awcsdata$ms436_q27c)
-location[4]=as.factor(awcsdata$ms436_q27d)
-location[5]=as.factor(awcsdata$ms436_q27e)
-location[6]=as.factor(awcsdata$ms436_q27f)
-location[7]=as.factor(awcsdata$ms436_n8)
-locnames=c("q27a","q27b","q27c","q27d","q27e","q27f","n8")
-names(location)=locnames
-locationnona=na.omit(location)
 
-locationpca<-prcomp(locationnona,center=TRUE,scale=TRUE)
-summary(locationpca)
-ggbiplot(locationpca)
-
+Autonomy PCA:
+```{r, echo=FALSE}
 autonomy=as.data.frame(awcsdata$ms436_q49a)
 autonomy[2]=awcsdata$ms436_q49b
 autonomy[3]=awcsdata$ms436_q49c
@@ -198,7 +121,10 @@ autonomynona=na.omit(autonomy)
 autonomypca=prcomp(autonomynona,center=TRUE,scale=TRUE)
 summary(autonomypca)
 ggbiplot(autonomypca)
+```
 
+Pace PCA:
+```{r, echo=FALSE}
 pace=as.data.frame(awcsdata$ms436_q45a)
 pace[2]=awcsdata$ms436_q45b
 pace[3]=awcsdata$ms436_q46a
@@ -215,7 +141,10 @@ pacenona=na.omit(pace)
 pacepca=prcomp(pacenona,center=TRUE,scale=TRUE)
 summary(pacepca)
 ggbiplot(pacepca)
+```
 
+Learning PCA:
+```{r, echo=FALSE}
 learning=as.data.frame(awcsdata$ms436_q60)
 learning[2]=awcsdata$ms436_q61a
 learning[3]=awcsdata$ms436_q61b
@@ -224,12 +153,14 @@ learning[5]=awcsdata$ms436_q61d
 learnnames=c("q60","q61a","q61b","q61c","q61d")
 names(learning)=learnnames
 learningnona=na.omit(learning)
-learningnona
 
 learningpca=prcomp(learningnona,center=TRUE,scale=TRUE)
 summary(learningpca)
 ggbiplot(learningpca)
+```
 
+Collaboration PCA:
+```{r, echo=FALSE}
 collab=as.data.frame(awcsdata$ms436_q56)
 collab[2]=awcsdata$ms436_q57a
 collab[3]=awcsdata$ms436_q57b
@@ -238,12 +169,15 @@ collab[5]=awcsdata$ms436_n10
 collabnames=c("q56","q57a","q57b","q57c","n10")
 names(collab)=collabnames
 collabnona=na.omit(collab)
-collabnona
 
 collabpca=prcomp(collabnona,center=TRUE,scale=TRUE)
 summary(collabpca)
 ggbiplot(collabpca)
 
+```
+
+Physical Demand PCA:
+```{r, echo=FALSE}
 physdemand=as.data.frame(awcsdata$ms436_q24a)
 physdemand[2]=awcsdata$ms436_q24b
 physdemand[3]=awcsdata$ms436_q24c
@@ -251,7 +185,6 @@ physdemand[4]=awcsdata$ms436_q24d
 physdemand[5]=awcsdata$ms436_q24e
 physdemand[6]=awcsdata$ms436_q24f
 physdemand[7]=awcsdata$ms436_q24i
-physdemand
 physdemand[8]=awcsdata$ms436_q24j
 physdemand[9]=awcsdata$ms436_q24k
 physdnames=c("q24a","q24b","q24c","q24d","q24e","q24f","q24g","q24h","q24i")
@@ -261,7 +194,10 @@ physdemandnona=na.omit(physdemand)
 physdemandpca=prcomp(physdemandnona,center=TRUE,scale=TRUE)
 summary(physdemandpca)
 ggbiplot(physdemandpca)
+```
 
+Physical Exposure PCA:
+```{r, echo=FALSE}
 physexpose=as.data.frame(awcsdata$ms436_q23a)
 physexpose[2]=awcsdata$ms436_q23b
 physexpose[3]=awcsdata$ms436_q23c
@@ -301,31 +237,10 @@ physexposenona=na.omit(physexpose)
 physexposepca=prcomp(physexposenona,center=TRUE,scale=TRUE)
 summary(physexposepca)
 ggbiplot(physexposepca)
+```
 
-management=as.data.frame(awcsdata$ms436_q17)
-management[2]=awcsdata$ms436_q59
-management[3]=awcsdata$ms436_q58a
-management[4]=awcsdata$ms436_q58b
-management[5]=awcsdata$ms436_q58c
-management[6]=awcsdata$ms436_q58d
-management[7]=awcsdata$ms436_q58e
-management[8]=awcsdata$ms436_q58f
-management[9]=awcsdata$ms436_q58g
-management[10]=awcsdata$ms436_q61_4a
-management[11]=awcsdata$ms436_q61_4b
-management[12]=awcsdata$ms436_q61_4c
-management[13]=awcsdata$ms436_q61_4d
-management[14]=awcsdata$ms436_q61_4e
-management[15]=awcsdata$ms436_q61_4f
-management[16]=awcsdata$ms436_q61_4g
-managenames=c("q17","q59","q58a","q58b","q58c","q58d","q58e","q58f","q58g","q614a","q614b","q614c","q614d","q614e","q614f","q614g")
-names(management)=managenames
-managementnona=na.omit(management)
-
-managementpca=prcomp(managementnona,center=TRUE,scale=TRUE)
-summary(managementpca)
-ggbiplot(managementpca)
-
+Stress PCA:
+```{r, echo=FALSE}
 stress=as.data.frame(awcsdata$ms436_q52a)
 stress[2]=awcsdata$ms436_q52b
 stress[3]=awcsdata$ms436_q52c
@@ -360,7 +275,10 @@ stressnona=na.omit(stress)
 stresspca=prcomp(stressnona,center=TRUE,scale=TRUE)
 summary(stresspca)
 ggbiplot(stresspca)
+```
 
+Meaningful work PCA:
+```{r, echo=FALSE}
 meaningful=as.data.frame(awcsdata$ms436_n3a)
 meaningful[2]=awcsdata$ms436_n3b
 meaningful[3]=awcsdata$ms436_n3c
@@ -374,43 +292,14 @@ meaningfulnona=na.omit(meaningful)
 meaningfulpca=prcomp(meaningfulnona,center=TRUE,scale=TRUE)
 summary(meaningfulpca)
 ggbiplot(meaningfulpca)
-
-Loadings <- as.data.frame(meaningfulpca$rotation[,1:3])
-Loadings
-
-#Creation of a total frame with all charcteristics and attempted PCA on total frame
-total=cbind(background,worklifebalance,hourssched,ptobenefits,location,autonomy,pace,learning,collab,physdemand,physexpose,management,stress,meaningful)
-total=total[!names(total)%in%c("q57a","q57b","q57c","n5a")]
-totalnona=na.omit(total)
-total
-totalnona
-totalpca<-prcomp(totalnona,center=TRUE,scale=TRUE)
-summary(totalpca)
-
-#
-kmeans(totalnona,4)
+```
 
 
 
-control=as.data.frame(awcsdata$ms436_q39)
-control[2]=awcsdata$ms436_ef10
-control[3]=0
-control[3][control[1]==1]=control[2]
-control[3]
-control=na.omit(control)
-control=matrix(control)
-controlbar=matrix(ncol=2,nrow=4)
-controlbar[1,1]=1
-controlbar[1,2]=2
-controlbar[1,3]=3
-controlbar[1,4]=4
-controlbar[2,1]=mean(control[3])
-controlbar[2,2]=2
-controlbar[2,3]=3
-controlbar[2,4]=4
+# Wage Regression Models
 
-
-
+Base wage model
+```{r, echo=FALSE}
 wage=awcsdata$ms436_ef10
 gender=as.factor(awcsdata$ms436_gender)
 livingsituation=as.factor(awcsdata$ms436_currentlivingsituation)
@@ -434,92 +323,100 @@ wageframenona=na.omit(wageframe)
 wagemodel=lm(log1p(wageframenona$Wage)~wageframenona$Gender+wageframenona$LivingSituation+
                wageframenona$Ethnicity+wageframenona$SelfEmp+wageframenona$Education+poly(wageframenona$Age,2),data=wageframenona,na.action=na.omit)
 summary(wagemodel)
+```
 
-
+Work-life Balance
+```{r, echo=FALSE}
 worklifebalancewage=cbind(worklifebalance,wageframe)
 worklifebalancewage=na.omit(worklifebalancewage)
-worklifebalancewage
 worklifebalancewagemodel=(lm(log1p(worklifebalancewage$Wage)~.,data=worklifebalancewage,na.action=na.omit))
 summary(worklifebalancewagemodel)
+```
 
+Background
+```{r, echo=FALSE}
 backgroundwage=cbind(background,wageframe)
 backgroundwage=na.omit(backgroundwage)
-backgroundwage
 backgroundwagemodel=(lm(log1p(backgroundwage$Wage)~.,data=backgroundwage,na.action=na.omit))
 summary(backgroundwagemodel)
+```
 
+Hours/Schedule
+```{r, echo=FALSE}
 hoursschedwage=cbind(hourssched,wageframe)
 hoursschedwage=na.omit(hoursschedwage)
-hoursschedwage
 hoursschedwagemodel=(lm(log1p(hoursschedwage$Wage)~.,data=hoursschedwage,na.action=na.omit))
 summary(hoursschedwagemodel)
+```
 
+PTO/Benefits
+```{r, echo=FALSE}
 ptobenefitswage=cbind(ptobenefits,wageframe)
 ptobenefitswage=na.omit(ptobenefitswage)
-ptobenefitswage
 ptobenefitswagemodel=(lm(log1p(ptobenefitswage$Wage)~.,data=ptobenefitswage,na.action=na.omit))
 summary(ptobenefitswagemodel)
+```
 
-locationwage=cbind(location,wageframe)
-locationwage=na.omit(locationwage)
-locationwage
-locationwagemodel=(lm(log1p(locationwage$Wage)~.-q27e,data=locationwage,na.action=na.omit))
-summary(locationwagemodel)
-
+Autonomy
+```{r, echo=FALSE}
 autonomywage=cbind(autonomy,wageframe)
 autonomywage=na.omit(autonomywage)
-autonomywage
 autonomywagemodel=(lm(log1p(autonomywage$Wage)~.,data=autonomywage,na.action=na.omit))
 summary(autonomywagemodel)
+```
 
+Pace
+```{r, echo=FALSE}
 pacewage=cbind(pace,wageframe)
 pacewage=na.omit(pacewage)
-pacewage
 pacewagemodel=(lm(log1p(pacewage$Wage)~.,data=pacewage,na.action=na.omit))
 summary(pacewagemodel)
+```
 
+Learning
+```{r, echo=FALSE}
 learningwage=cbind(learning,wageframe)
 learningwage=na.omit(learningwage)
-learningwage
 learningwagemodel=(lm(log1p(learningwage$Wage)~.,data=learningwage,na.action=na.omit))
 summary(learningwagemodel)
+```
 
+Collaboration
+```{r, echo=FALSE}
 collabwage=cbind(collab,wageframe)
 collabwage=na.omit(collabwage)
-collabwage
 collabwagemodel=(lm(log1p(collabwage$Wage)~.,data=collabwage,na.action=na.omit))
 summary(collabwagemodel)
+```
 
+Physical Demand
+```{r, echo=FALSE}
 physdemandwage=cbind(physdemand,wageframe)
 physdemandwage=na.omit(physdemandwage)
-physdemandwage
 physdemandwagemodel=(lm(log1p(physdemandwage$Wage)~.,data=physdemandwage,na.action=na.omit))
 summary(physdemandwagemodel)
+```
 
+Physical Exposure
+```{r, echo=FALSE}
 physexposewage=cbind(physexpose,wageframe)
 physexposewage=na.omit(physexposewage)
-physexposewage
 physexposewagemodel=(lm(log1p(physexposewage$Wage)~.,data=physexposewage,na.action=na.omit))
 summary(physexposewagemodel)
+```
 
-managementwage=cbind(management,wageframe)
-managementwage=na.omit(managementwage)
-managementwage
-managementwagemodel=(lm(log1p(managementwage$Wage)~.,data=managementwage,na.action=na.omit))
-summary(managementwagemodel)
-
+Stress
+```{r, echo=FALSE}
 stresswage=cbind(stress,wageframe)
 stresswage=na.omit(stresswage)
-stresswage
 stresswagemodel=(lm(log1p(stresswage$Wage)~.,data=stresswage,na.action=na.omit))
 summary(stresswagemodel)
+```
 
-
+Meaningful Work
+```{r, echo=FALSE}
 meaningfulwage=cbind(meaningful,wageframe)
 meaningfulwage=na.omit(meaningfulwage)
-meaningfulwage
 meaningfulwagemodel=(lm(log1p(meaningfulwage$Wage)~.,data=meaningfulwage,na.action=na.omit))
 summary(meaningfulwagemodel)
-
-
-collabpcr=extractPrediction(3,collabpca)
+```
